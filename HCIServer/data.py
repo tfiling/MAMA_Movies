@@ -78,23 +78,37 @@ data = {
     ]
 }
 
-# returns
-def search_movie_by_year(fromYear = "2017", toYear = "2017"):# format: yyyy-yyyy or yyyy
-    movieList = []
-    for year in range(int(fromYear), (int(toYear) + 1)):
-        strYear = str(year)
-        res = searchMovieWithYear(strYear)
-        movieList.append(res)
-    responseJson = movie_list_to_response_json(movieList)
-    return responseJson
+# TODO muted for now, consider removal:
+#           will always search movies by name and will filter by years and genres
+# def search_movie_by_year(fromYear = "2017", toYear = "2017"):# format: yyyy-yyyy or yyyy
+#     movieList = []
+#     for year in range(int(fromYear), (int(toYear) + 1)):
+#         strYear = str(year)
+#         res = searchMovieWithYear(strYear)
+#         movieList.append(res)
+#     responseJson = movie_list_to_response_json(movieList)
+#     return responseJson
 
-def filter_by_genre(movieList, genre=None):
+def data_filter_by_years(movieList = [], fromYear = 2017, toYear = 2017):
+    if fromYear > toYear:
+        fromYear = toYear   # handle a scenario where invalid arg is sent
+    filteredList = []
+    for movie in movieList:
+        try:
+            if ((movie.releasedate is not None) and movie.releasedate.year >= fromYear and movie.releasedate.year <= toYear):
+                filteredList.append(movie)
+        except Exception as e:
+            print("data.data_filter_by_years exception: %s" % e)
+    return filteredList
+
+# TODO implement
+def data_filter_by_genre(movieList, genre=None):
     if genre in None:
         return movieList    # no filtaration by genre is required - genre is none
     # filteredMoviewList = filter(lambda movie:
     #                             genreList = movie.genres
     #                             movie.genres.con == genre, movieList)
-    print()
+    print("data.data_filter_by_genre not implemented yet!!!")
 
 def movie_list_to_response_json(movieList):
     movieArray = []
@@ -113,17 +127,10 @@ def movie_list_to_response_json(movieList):
     return responseJson
 
 
-
+#returns a search results instance containing movie instances
 def data_search_movie(query):
-    movieList = searchMovie(query=query)
-    responseJson = movie_list_to_response_json(movieList)
-    return responseJson
-
-
-def convert_movie_list_to_result_list(movieList):
-    print()
-    # for movie in movieList:
-
+    movieList = searchMovie(query=query)# TODO remove middle man
+    return movieList
 
 
 def get_data(params):

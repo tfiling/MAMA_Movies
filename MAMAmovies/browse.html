@@ -157,7 +157,7 @@
 </div>
 <h1>MAMA Movies Sign In</h1>
 <h2>Please choose one from the filters above:</h2>
-<form id="checkBox" class="dataYear" action="myActions">
+<form id="checkBoxYear" class="dataYear" action="myActions">
     <h3>Filter by release Year</h3>
     <select name="year" id="years" style="text-align: center;
         font-family:Comic Sans Ms;
@@ -167,9 +167,9 @@
         display: block;
         width: 400px; text-align-last:center;">
         <option value="2017">2017</option>
-        <option value="2016-2014">2016-2014</option>
-        <option value="013-2010">2013-2010</option>
-        <option value="Before_2010">Before 2010</option>
+        <option value="2014-2016">2014-2016</option>
+        <option value="2010-2013">2010-2013</option>
+        <option value="1900-2009">Before 2010</option>
     </select>
     <br><br>
 </form>
@@ -231,6 +231,26 @@
 </p>
 <script type="text/javascript">
 
+    //func by gal
+    function parseYearsFiler(yearsString)
+    {
+        var yearsArray = yearsString.split("-");
+        var toYear;
+        if (yearsArray[1] == undefined)
+        {//this is a 1 year range
+            toYear = yearsArray[0];
+        }
+        else
+        {
+            toYear = yearsArray[1];
+        }
+        var yearsObj =
+            {
+                "fromYear" : yearsArray[0],
+                "toYear" : toYear
+            };
+        return yearsObj;//return the parsed year property
+    }
 
     function SignIn() {
         window.location="SignIn.html" ;
@@ -247,10 +267,11 @@
     function sendData() {
         $('#progressDiv').show();
         $('#div1').hide();
+        var yearsProperty = parseYearsFiler(document.getElementById('years').value);
         var objectData =
             {
                 "movieName" : document.getElementById('movie').value,
-                "years": document.getElementById('years').value,
+                "years": yearsProperty,
                 "gener": document.getElementById('geners').value
             };
 
@@ -266,23 +287,23 @@
             error: OnErrorCall
         });
         function OnSuccess(response){
-            var len - response.length;
+            var len = response.length;
             var tbl=$("<table/>").attr("id","mytable");
             $("#div1").append(tbl);
             var tr="<tr>";
             var td1="<td>"+"Movie Name "+"</td>";
             var td2="<td>"+"Rating"+"</td>";
             var td3="<td>"+"Total revenues"+"</td>";
-            var td4="<td>"+"Link to Movie page"+"</td></tr>"";
+            var td4="<td>"+"Link to Movie page"+"</td></tr>";
 
             $("#mytable").append(tr+td1+td2+td3+td4);
             for(var i=0;i<len;i++)
             {
                 var tr="<tr>";
-                var td1="<td>"+obj[i]["name"]+"</td>";
-                var td2="<td>"+obj[i]["rating"]+"</td>";
-                var td3="<td>"+obj[i]["revenues"]+"</td>";
-                var td4="<td>"+obj[i]["linktopage"]+"</td></tr>";
+                var td1="<td>"+response[i]["name"]+"</td>";
+                var td2="<td>"+response[i]["rating"]+"</td>";
+                var td3="<td>"+response[i]["revenues"]+"</td>";
+                var td4="<td>"+response[i]["linktopage"]+"</td></tr>";
                 $("#mytable").append(tr+td1+td2+td3+td4);
             }
             $("#div1").show();

@@ -6,14 +6,14 @@ import urllib
 from pandas.io.clipboard.clipboard import to_clipboard
 
 from data import get_data
-from data import search_movie_by_year
+from data import data_filter_by_years
 from data import data_search_movie
+from data import movie_list_to_response_json
 
 
 
 class HCIRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
-        # API request for data
 
         if "/data/" in self.path or "/data?" in self.path:
             parsed_request = urlparse.urlparse(self.path)
@@ -24,20 +24,23 @@ class HCIRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.wfile.write(data)
             return
 
-        #TODO expose API here
         if "/search" in self.path:
             try:
                 parsed_request = urlparse.urlparse(self.path)
                 searchRequest = json.loads(urllib.unquote(parsed_request[4]))
+                ####search movie by name
                 query = searchRequest['movieName']
                 result = data_search_movie(query)
-                # filtration = searchRequest['query']
-                # value = searchRequest['value']
-                #### filteration was parsed
-                # if filtration == 'year':
-                #     fromYear = searchRequest['from']
-                #     toYear = searchRequest['to']
-                #     result = search_movie_by_year(fromYear, toYear)
+
+                ####filter results by year range
+                if searchRequest['years'] is not None:
+                    fromYearString = searchRequest['years']['fromYear']
+                    toYearString = searchRequest['years']['toYear']
+                    result = data_filter_by_years(result, int(fromYearString), int(toYearString))
+
+                ####filter results by genre
+                # TODO filter by genre
+                result = movie_list_to_response_json(result)
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
                 self.send_header('Access-Control-Allow-Origin', '*')
@@ -47,7 +50,7 @@ class HCIRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
             except Exception as e:
                 # TODO make sure the exception was thrown due to empty argument
-                print(e)
+                print("search resulted exception: %s" % e)
             return
 
 
