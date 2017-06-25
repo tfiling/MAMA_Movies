@@ -1,0 +1,62 @@
+<!doctype html>
+<html ng-app="exampleApp">
+<head>
+    <meta charset="utf-8">
+    <title>Multi-Level Drop Down Menu with Pure CSS</title>
+    <!-- Example for relative path -->
+    <link rel="stylesheet" type="text/css" href="css/example-style.css">
+    <!-- Example for absolute path -->
+    <link rel="stylesheet" type="text/css" href="/shared/css/scroll-to-top.css">
+    <script src="/shared/js/scroll-to-top.js"></script>
+    <script src="/shared/js/angular.min.js"></script>
+    <script src="app/app.module.js"></script>
+    <script src="app/example-list/example-list.module.js"></script>
+    <script src="app/example-list/example-list.component.js"></script>
+</head>
+
+<body >
+<header class="col-6 center">
+    <nav>
+        <ul>
+            <li><a href="#">Item</a></li>
+            <li><a href="#">Inner List 1</a>
+                <ul>
+                    <li><a href="#">Item</a></li>
+                    <li><a href="#">Inner Inner List 1</a>
+                        <ul>
+                            <li><a href="#">Item 1</a></li>
+                            <li><a href="#">Item 2</a></li>
+                            <li><a href="#">Item 3</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Inner Inner List 2</a>
+                        <ul>
+                            <li><a href="#">Item 1</a></li>
+                            <li><a href="#">Item 2</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#">Inner List 2</a>
+                <ul>
+                    <li><a href="#">Item 1</a></li>
+                    <li><a href="#">Item 2</a></li>
+                    <li><a href="#">Inner Inner List</a>
+                        <ul>
+                            <li><a href="#">Item 1</a></li>
+                            <li><a href="#">Item 2</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Item 3</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Item 2</a></li>
+        </ul>
+    </nav>
+</header>
+<button onclick="topFunction()" id="scrollToTopButton" title="Go to top">^</button>
+<main class="col-9 center">
+    <example-list></example-list>
+</main>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/ricmoo/aes-js/e27b99df/index.js"></script>
+
+
+</head>
+
+<title>
+    MAMA Movies Log In
+</title>
+<style>
+    h1 {
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:35pt;
+        color: #FFFFFF;
+    }
+    p.login {
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:15pt;
+        color: #FFFFFF;
+    }
+    body {
+        background: url("background.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding-top: 40px;
+    }
+    .button {
+        background-color: #b000ff;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        text-align: center;
+        margin:auto;
+        display:block;
+    }
+    .topnav {
+        overflow: hidden;
+        background-color: #333;
+        text-align: center;
+    }
+
+    .topnav a {
+        float: left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+        font-family:Comic Sans Ms;
+    }
+
+    .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+        text-align: center;
+    }
+
+    .topnav a.active {
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+    }
+</style>
+
+</head>
+<body>
+<div class="topnav">
+    <a  href="#home" onclick="Home()">Home</a>
+    <a href="#news" onclick="Browse()">Browse</a>
+    <a href="#contact" onclick="About()">About us</a>
+    <a  href="#about" onclick="SignIn()">Sign In</a>
+    <a class="active"  href="#about" onclick="LogIn()">Log In</a>
+</div>
+<h1>MAMA Movies Log In</h1>
+<form name="form1" id="form1">
+    <p class="login">
+        Username   <input id = "userName" type="userName" name="userName"/>
+        Password   <input id= "password" type="password" name="password"/>
+        <br />
+        <br />
+        <button class="button" onclick="sendData()">Log In</button>
+        <br />
+        <button class="button" type="reset" value="Reset">Reset</button>
+    </p>
+</form>
+<script type="text/javascript">
+    function Reset() {
+        document.getElementById("login").reset();
+    }
+    function SignIn() {
+        window.location="SignIn.html" ;
+    }function LogIn() {
+        window.location="LogIn.html" ;
+    }
+    function Home() {
+        window.location="home.html" ;
+    }function Browse() {
+        window.location="browse.html" ;
+    }function About() {
+        window.location="aboutUs.html" ;
+    }
+    function sendData() {
+        var objectData =
+            {
+                "UserName": document.getElementById('userName').value,
+                "Password": document.getElementById('password').value
+
+            };
+
+        var objectDataString = JSON.stringify(objectData);
+        $.ajax({
+            type: "POST",
+            url: "http://172.20.10.12:8080",
+            data: objectDataString,
+            dataType: "json",
+            success: OnSuccess,
+            error: OnErrorCall
+        });
+        function OnSuccess(response){
+            localStorage.setItem("UserName", response.LoginResponeCommMessage.UserId.valueOf());
+
+            window.location="home.html";
+
+        }
+        function OnErrorCall(){
+            alert("ERROR");
+        }
+    }
+</script>
+</head>
+</body>
+</html>

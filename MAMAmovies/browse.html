@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/ricmoo/aes-js/e27b99df/index.js"></script>
+
+
+</head>
+
+<title>
+    MAMA Movies Sign In
+</title>
+<style>
+    h1 {
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:35pt;
+        color: #FFFFFF;
+    }
+    h2{
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:25pt;
+        color: #FFFFFF;
+    }
+    h3{
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:17pt;
+        color: #FFFFFF;
+    }
+    p.login {
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:15pt;
+        color: #FFFFFF;
+    }
+    body {
+        background: url("background.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding-top: 40px;
+    }
+    .button {
+        background-color: #b000ff;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        text-align: center;
+        margin:auto;
+        display:block;
+    }
+    p.sugg {
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:20pt;
+        color: #00d2ff;
+    }
+    .topnav {
+        overflow: hidden;
+        background-color: #333;
+        text-align: center;
+    }
+
+    .topnav a {
+        float: left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+        font-family:Comic Sans Ms;
+    }
+
+    .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+        text-align: center;
+    }
+
+    .topnav a.active {
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+    }
+    p.dataYear {
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:10pt;
+        color: #3e2fff;
+        margin: auto;
+        display: block;
+        width: 400px; text-align-last:center;
+
+    }
+    p.dataGeners {
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:10pt;
+        color: #3e2fff;
+        margin: auto;
+        display: block;
+        width: 400px; text-align-last:center;
+    }
+    p.year {
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:10pt;
+        color: #3e2fff;
+        margin: auto;
+        display: block;
+        width: 400px; text-align-last:center;
+    }
+    .button {
+        background-color: #f44336;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        text-align: center;
+        margin: auto;
+        display: block;
+    }
+    #mytable,td{
+        border:10px solid #30faff;;
+        color: white;
+    }
+    p.movieName {
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:15pt;
+        color: #FFFFFF;
+    }
+</style>
+
+</head>
+<body>
+<div class="topnav">
+    <a  href="#home" onclick="Home()">Home</a>
+    <a class="active" href="#news" onclick="Browse()">Browse</a>
+    <a href="#contact" onclick="About()">About us</a>
+    <a  href="#about" onclick="SignIn()">Sign In</a>
+    <a href="#about" onclick="LogIn()">Log In</a>
+</div>
+<h1>MAMA Movies Sign In</h1>
+<h2>Please choose one from the filters above:</h2>
+<form id="checkBox" class="dataYear" action="myActions">
+    <h3>Filter by release Year</h3>
+    <select name="year" id="years" style="text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:10pt;
+        color: #3e2fff;
+        margin: auto;
+        display: block;
+        width: 400px; text-align-last:center;">
+        <option value="2017">2017</option>
+        <option value="2016-2014">2016-2014</option>
+        <option value="013-2010">2013-2010</option>
+        <option value="Before_2010">Before 2010</option>
+    </select>
+    <br><br>
+</form>
+<form id="checkBox" class="dataGeners" action="myActions">
+<h3>Filter by Geners</h3>
+    <select name="type" id="geners" style="text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:10pt;
+        color: #3e2fff;
+        margin: auto;
+        display: block;
+        width: 400px; text-align-last:center;">
+        <option value="Adventure">Adventure</option>
+        <option value="Comedy">Comedy</option>
+        <option value="Drama">Drama</option>
+        <option value="Comedy">Fiction</option>
+    </select>
+    <br><br>
+</form>
+<p class="movieName">
+   <h3>Filter by Movie Name</h3>
+    <br />
+    <input id = "movie" type="movie" name="movie" style="text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:10pt;
+        color: #3e2fff;
+        margin: auto;
+        display: block;
+        width: 400px; text-align-last:center;"/>
+    <br />
+    <br />
+    <button class="button" onclick="sendData()">Submit</button>
+</p>
+<div id="progressDiv" style="text-align: center;
+        margin: auto;
+        display: block;
+        width: 400px;
+        text-align-last:center;
+        font-family:Comic Sans Ms;
+        font-size:10pt;
+        color: #3e2fff;
+        visibility: hidden;">Loading . . .
+    <p>
+        <img src="progress.gif"></img>
+    </p>
+</div>
+<div id="div1">
+</div>
+<p class="sugg">
+    MAMA Movies Suggestions for you: Top 3 Highest Grossing R-Rated Movies
+</p>
+</form>
+<p class="sugg">
+    <img src="Webp.net-resizeimage.png"></img>
+    <br />
+    <img src="sugg2.png"></img>
+    <br />
+    <img src="sugg3.png"></img>
+</p>
+<script type="text/javascript">
+
+
+    function SignIn() {
+        window.location="SignIn.html" ;
+    }function LogIn() {
+        window.location="LogIn.html" ;
+    }
+    function Home() {
+        window.location="home.html" ;
+    }function Browse() {
+        window.location="browse.html" ;
+    }function About() {
+        window.location="aboutUs.html" ;
+    }
+    function sendData() {
+        $('#progressDiv').show();
+        $('#div1').hide();
+        var objectData =
+            {
+                "movieName" : document.getElementById('movie').value,
+                "years": document.getElementById('years').value,
+                "gener": document.getElementById('geners').value
+            };
+
+        var objectDataString = JSON.stringify(objectData);
+        $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:8080/search",
+            data: objectDataString,
+            dataType: "json",
+            crossDomain : true,
+
+            success: OnSuccess,
+            error: OnErrorCall
+        });
+        function OnSuccess(response){
+            var len - response.length;
+            var tbl=$("<table/>").attr("id","mytable");
+            $("#div1").append(tbl);
+            var tr="<tr>";
+            var td1="<td>"+"Movie Name "+"</td>";
+            var td2="<td>"+"Rating"+"</td>";
+            var td3="<td>"+"Total revenues"+"</td>";
+            var td4="<td>"+"Link to Movie page"+"</td></tr>"";
+
+            $("#mytable").append(tr+td1+td2+td3+td4);
+            for(var i=0;i<len;i++)
+            {
+                var tr="<tr>";
+                var td1="<td>"+obj[i]["name"]+"</td>";
+                var td2="<td>"+obj[i]["rating"]+"</td>";
+                var td3="<td>"+obj[i]["revenues"]+"</td>";
+                var td4="<td>"+obj[i]["linktopage"]+"</td></tr>";
+                $("#mytable").append(tr+td1+td2+td3+td4);
+            }
+            $("#div1").show();
+            $("#progressDiv").hide();
+            $("#checkBox").hide();
+
+
+        }
+        function OnErrorCall(response){
+                alert("ERROR");
+        }
+    }
+</script>
+</head>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/ricmoo/aes-js/e27b99df/index.js"></script>
+</head>
+
+<title>
+    MAMA Movies Home Page
+</title>
+<style>
+    h1 {
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:35pt;
+        color: #FFFFFF;
+    }
+    p.popular {
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:20pt;
+        color: #00d2ff;
+    }
+    p.expected {
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:20pt;
+        color: #00d2ff;
+    }
+    p.topRev {
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:20pt;
+        color: #00d2ff;
+    }
+    p.articles {
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:20pt;
+        color: #00d2ff;
+    }
+    body {
+        background: url("background.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding-top: 40px;
+    }
+    .topnav {
+        overflow: hidden;
+        background-color: #333;
+        text-align: center;
+    }
+
+    .topnav a {
+        float: left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+        font-family:Comic Sans Ms;
+    }
+
+    .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+        text-align: center;
+    }
+
+    .topnav a.active {
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+    }
+    .button {
+        background-color: #f44336;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        text-align: center;
+        margin: auto;
+        display: block;
+    }
+</style>
+
+</head>
+<body>
+<div class="topnav">
+    <a class="active" href="#home" onclick="Home()">Home</a>
+    <a href="#news" onclick="Browse()">Browse</a>
+    <a href="#contact" onclick="About()">About us</a>
+    <a  href="#about" onclick="SignIn()">Sign In</a>
+    <a href="#about" onclick="LogIn()">Log In</a>
+</div>
+<h1>MAMA Movies Home Page</h1>
+<div id="user" style =  "text-align: center;
+     font-family:Comic Sans Ms;
+     font-size:27pt;
+     color: #FFFFFF;">
+   Hi
+</div>
+<form name="form1" id="form1">
+    <p class="popular">
+       Popular Movies
+    </p>
+</form>
+<p class="popular">
+    <img src="Beauty_and_the_Beast.jpg"></img>
+    <img src="Cars_3.jpg"></img>
+    <img src="Webp.net-resizeimage.jpg"></img>
+    <img src="Wonder_Woman.jpg"></img>
+</p>
+<form name="form2" id="form2">
+    <p class="expected">
+        Expected Movies
+    </p>
+</form>
+<p class="expected">
+    <img src="Justice_League.jpg"></img>
+    <img src="Avengers.jpg"></img>
+    <img src="Black_panther.jpg"></img>
+    <img src="Goodbye_Christopher_Robin.jpg"></img>
+</p>
+<form name="form3" id="form3">
+    <p class="topRev">
+        Top Revenues
+    </p>
+</form>
+<p class="topRev">
+    <img src="top_revenues_us.JPG"></img>
+</p>
+<form name="form4" id="form4">
+    <p class="articles">
+        Recommnded Articles
+    </p>
+</form>
+<p class="articles">
+    <img src="article6.JPG"></img>
+    <button class="button" onclick="article6()">See full atricle at the Wrap</button>
+    <br />
+    <img src="article3.JPG"></img>
+    <button class="button" onclick="article3()">See full atricle at Varitey - TV News</button>
+    <br />
+    <img src="article4.JPG"></img>
+    <button class="button" onclick="article4()">See full atricle at Varitey - Film News</button>
+</p>
+
+<script type="text/javascript">
+    function article6() {
+        window.location="http://www.thewrap.com/bill-maher-lobbies-for-new-holiday-i-didnt-reproduce-day/" ;
+    }
+    function article3() {
+        window.location="http://variety.com/2017/tv/news/luke-grimes-kevin-costner-taylor-sheridan-1202476973/" ;
+    }
+        function article4() {
+            window.location="http://variety.com/2017/film/news/transformers-5-box-office-michael-bay-1202477000/" ;
+        }
+function displayUserName(){
+        var userName =localStorage.getItem("UserId");
+    document.getElementById("user").style.display = userName;
+}
+
+
+    function SignIn() {
+        window.location="SignIn.html" ;
+    }function LogIn() {
+        window.location="LogIn.html" ;
+    }
+    function Home() {
+        window.location="home.html" ;
+    }function Browse() {
+        window.location="browse.html" ;
+    }function About() {
+        window.location="aboutUs.html" ;
+    }
+
+</script>
+</head>
+</body>
+</html>
