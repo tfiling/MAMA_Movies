@@ -7,6 +7,7 @@ from pandas.io.clipboard.clipboard import to_clipboard
 
 from data import get_data
 from data import data_filter_by_years
+from data import data_filter_by_genre
 from data import data_search_movie
 from data import movie_list_to_response_json
 
@@ -31,15 +32,21 @@ class HCIRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                 ####search movie by name
                 query = searchRequest['movieName']
                 result = data_search_movie(query)
+                print(result)
 
                 ####filter results by year range
                 if searchRequest['years'] is not None:
                     fromYearString = searchRequest['years']['fromYear']
                     toYearString = searchRequest['years']['toYear']
                     result = data_filter_by_years(result, int(fromYearString), int(toYearString))
+                print(result)
 
                 ####filter results by genre
-                # TODO filter by genre
+                genreFilter = searchRequest['gener']
+                if genreFilter is not None:
+                    result = data_filter_by_genre(result, genreFilter)
+                print(result)
+
                 result = movie_list_to_response_json(result)
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
@@ -53,6 +60,23 @@ class HCIRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                 print("search resulted exception: %s" % e)
             return
 
+        if "/signup" in self.path:
+            try:
+                parsed_request = urlparse.urlparse(self.path)
+                signupRequest = json.loads(urllib.unquote(parsed_request[4]))
+
+                result = {"userName": "galres"}
+                responseJson = json.dumps(result)
+
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(result)
+                return
+            except Exception as e:
+                print("signup resulted exception: %s" % e)
+            return
 
         # Requesting a resource (html, js, css)
         if "/shared/" not in self.path:

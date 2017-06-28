@@ -102,13 +102,20 @@ def data_filter_by_years(movieList = [], fromYear = 2017, toYear = 2017):
     return filteredList
 
 # TODO implement
-def data_filter_by_genre(movieList, genre=None):
-    if genre in None:
-        return movieList    # no filtaration by genre is required - genre is none
-    # filteredMoviewList = filter(lambda movie:
-    #                             genreList = movie.genres
-    #                             movie.genres.con == genre, movieList)
-    print("data.data_filter_by_genre not implemented yet!!!")
+def data_filter_by_genre(movieList, expectedGenre=None):
+    if expectedGenre is None:
+        return movieList
+    filteredList = []
+    for movie in movieList:
+        try:
+            genreList = movie.genres
+            for genre in genreList:
+                if genre.name == expectedGenre:
+                    filteredList.append(movie)
+        except Exception as e:
+            print("data.data_filter_by_genre exception: %s" % e)
+    return filteredList
+
 
 def movie_list_to_response_json(movieList):
     movieArray = []
