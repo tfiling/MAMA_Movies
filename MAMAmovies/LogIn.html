@@ -122,8 +122,8 @@
 
         var objectDataString = JSON.stringify(objectData);
         $.ajax({
-            type: "POST",
-            url: "http://172.20.10.12:8080",
+            type: "GET",
+            url: "http://127.0.0.1:8080/login",
             data: objectDataString,
             dataType: "json",
             success: OnSuccess,

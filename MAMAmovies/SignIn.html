@@ -89,8 +89,8 @@
     <p class="login">
         Username   <input id = "userName" type="userName" name="userName"/>
         Password   <input id= "password" type="password" name="password"/>
-        Re-type Password   <input id= "password" type="password" name="password"/>
-        E-Mail address   <input id = "userName" type="email" name="userName"/>
+        Re-type Password   <input id= "retypedPassword" type="password" name="password"/>
+        E-Mail address   <input id = "userEmail" type="email" name="userEmail"/>
         <br />
         <br />
         <button class="button" onclick="sendData()">Join Us!</button>
@@ -117,27 +117,29 @@
     function sendData() {
         var objectData =
             {
-                "UserName": document.getElementById('userName').value,
-                "Password": document.getElementById('password').value,
-                "EMail": document.getElementById('email').value
+                "userName": document.getElementById('userName').value,
+                "password": document.getElementById('password').value,
+                "email": document.getElementById('userEmail').value
 
             };
 
         var objectDataString = JSON.stringify(objectData);
         $.ajax({
-            type: "POST",
-            url: "http://172.20.10.12:8080",
+            type: "GET",
+            url: "http://127.0.0.1:8080/signup",
             data: objectDataString,
             dataType: "json",
+            crossDomain : true,
+
             success: OnSuccess,
             error: OnErrorCall
         });
         function OnSuccess(response){
-            localStorage.setItem("UserName", response.LoginResponeCommMessage.UserId.valueOf());
+            localStorage.setItem("UserName", response.LoginResponeCommMessage.userName.valueOf());
             window.location="home.html";
 
         }
-        function OnErrorCall(){
+        function OnErrorCall(response){
             alert("ERROR");
         }
     }
