@@ -144,6 +144,7 @@ def data_search_movie(query):
 
 def signupUser(userDict = None):
     try:
+        # make sure all required arguments were received
         missingArguments = []
         if (not userDict.has_key("userName")) or (userDict["userName"] is None) or len(userDict["userName"]) == 0:
             missingArguments.append("userName")
@@ -171,14 +172,46 @@ def signupUser(userDict = None):
             return False, "user name %s is taken, please choose another one" % userName
         allUsersDictionary[userName] = userInstance
         with open("savedUsers.pkl", "wb") as file:
-            pickle.dump(allUsersDictionary, file, pickle.HIGHEST_PROTOCOL)    # write the updated usersDictionary instance ot the db file
-        return True, "Welcome %s" % userName
+            # write the updated usersDictionary instance ot the db file
+            pickle.dump(allUsersDictionary, file, pickle.HIGHEST_PROTOCOL)
+        return True, "Welcome %s" % userName    # signup was successful
     except IOError as e:
         print(e)
         return False, "Internal Server Error - data base failure, please try again later"
     except Exception as e:
         print(e)
         return False, "Internal Server Error - please try again later"
+
+def loginUser(userDict = None):
+    try:
+        # make sure all required arguments were received
+        missingArguments = []
+        if (not userDict.has_key("userName")) or (userDict["userName"] is None) or len(userDict["userName"]) == 0:
+            missingArguments.append("userName")
+        if (not userDict.has_key("password")) or (userDict["password"] is None) or len(userDict["password"]) == 0:
+            missingArguments.append("password")
+        if len(missingArguments) > 0:
+            return False, "Server Error - The following fields are missing: %s \n Please try again" % (', '.join(str(x) for x in missingArguments))   # return string describing the missing arguments
+        userName = userDict["userName"]
+        password = userDict["password"]
+        try:
+            with open( "savedUsers.pkl", "rb" ) as file:
+                allUsersDictionary = pickle.load(file)
+        except Exception as e:
+            return False, "Login failed: user and password don't match"
+        if not allUsersDictionary.has_key(userName):  # check if the user
+            return False, "Login failed: user and password don't match"
+        if allUsersDictionary[userName]["password"] == password:
+            return True, "Welcome %s" % userName
+        else:
+            return False, "Login failed: user and password don't match"
+    except IOError as e:
+        print(e)
+        return False, "Internal Server Error - data base failure, please try again later"
+    except Exception as e:
+        print(e)
+        return False, "Internal Server Error - please try again later"
+
 
 def signin(userName = None, password = None):
     return True

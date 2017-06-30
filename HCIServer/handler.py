@@ -11,6 +11,7 @@ from data import data_filter_by_genre
 from data import data_search_movie
 from data import movie_list_to_response_json
 from data import signupUser
+from data import loginUser
 
 
 
@@ -77,15 +78,29 @@ class HCIRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                 self.send_header('Access-Control-Allow-Origin', '*')
                 self.end_headers()
                 self.wfile.write(responseJson)
-                return
             except Exception as e:
                 print("signup resulted exception: %s" % e)
             return
 
-        if "/signup" in self.path:
+        if "/login" in self.path:
             try:
                 parsed_request = urlparse.urlparse(self.path)
-                signupRequest = json.loads(urllib.unquote(parsed_request[4]))
+                loginRequest = json.loads(urllib.unquote(parsed_request[4]))
+                success, description = loginUser(loginRequest)
+                userName = loginRequest["userName"] if success else ""
+                result = {"description" : description,
+                          "success" : success,
+                          "userName" : userName}
+                responseJson = json.dumps(result)
+                print(responseJson)
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(responseJson)
+            except Exception as e:
+                print("login resulted exception: %s" % e)
+            return
 
 
         # Requesting a resource (html, js, css)

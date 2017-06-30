@@ -115,8 +115,8 @@
     function sendData() {
         var objectData =
             {
-                "UserName": document.getElementById('userName').value,
-                "Password": document.getElementById('password').value
+                "userName": document.getElementById('userName').value,
+                "password": document.getElementById('password').value
 
             };
 
@@ -126,13 +126,24 @@
             url: "http://127.0.0.1:8080/login",
             data: objectDataString,
             dataType: "json",
+            crossDomain : true,
             success: OnSuccess,
             error: OnErrorCall
         });
         function OnSuccess(response){
-            localStorage.setItem("UserName", response.LoginResponeCommMessage.UserId.valueOf());
+//            localStorage.setItem("UserName", response.LoginResponeCommMessage.UserId.valueOf());
+            if (!response.success)
+            {//the login failed -> display the error to the user
+                alert(response.description)
+            }
+            else
+            {//signup successful
+//                IMPORTANT - removed the line that writes to the local storage the user name - caused an exception
+//                localStorage.setItem("UserName", response.userName);
+                alert(response.description)
+                window.location="home.html";
+            }
 
-            window.location="home.html";
 
         }
         function OnErrorCall(){

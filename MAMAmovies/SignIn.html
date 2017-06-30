@@ -141,6 +141,7 @@
             }
             else
             {//signup successful
+//                IMPORTANT - removed the line that writes to the local storage the user name - caused an exception
 //                localStorage.setItem("UserName", response.userName);
                 alert(response.description)
                 window.location="home.html";
