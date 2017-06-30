@@ -141,7 +141,8 @@
             }
             else
             {//signup successful
-                localStorage.setItem("UserName", response.LoginResponeCommMessage.userName.valueOf());
+//                localStorage.setItem("UserName", response.userName);
+                alert(response.description)
                 window.location="home.html";
             }
 
