@@ -3,6 +3,8 @@ import json
 
 from tmdb3 import searchMovie
 from tmdb3 import searchMovieWithYear
+import pickle
+import os
 
 
 data = {
@@ -139,6 +141,47 @@ def data_search_movie(query):
     movieList = searchMovie(query=query)# TODO remove middle man
     return movieList
 
+
+def signupUser(userDict = None):
+    try:
+        missingArguments = []
+        if (not userDict.has_key("userName")) or (userDict["userName"] is None) or len(userDict["userName"]) == 0:
+            missingArguments.append("userName")
+        if (not userDict.has_key("email")) or (userDict["email"] is None) or len(userDict["email"]) == 0:
+            missingArguments.append("email")
+        if (not userDict.has_key("password")) or (userDict["password"] is None) or len(userDict["password"]) == 0:
+            missingArguments.append("password")
+        if len(missingArguments) > 0:
+            return False, "Server Error - The following fields are missing: %s \n Please try again" % (', '.join(str(x) for x in missingArguments))   # return string describing the missing arguments
+        # create a user object to be saved to disk
+        userName = userDict["userName"]
+        password = userDict["password"]
+        email = userDict["email"]
+        userInstance = {"userName" : userName,
+                "password" : password,
+                "email" : email}
+        try:
+            with open( "savedUsers.pkl", "rb" ) as file:
+                allUsersDictionary = pickle.load(file)
+        except Exception as e:
+            print(e)
+            print("this is the first run and the file is empty => create and write new instance of user dictionary")
+            allUsersDictionary = {}
+        if allUsersDictionary.has_key(userName):  # make sure userName is not taken
+            return False, "user name %s is taken, please choose another one" % userName
+        allUsersDictionary[userName] = userInstance
+        with open("savedUsers.pkl", "wb") as file:
+            pickle.dump(allUsersDictionary, file, pickle.HIGHEST_PROTOCOL)    # write the updated usersDictionary instance ot the db file
+        return True, "Welcome %s" % userName
+    except IOError as e:
+        print(e)
+        return False, "Internal Server Error - data base failure, please try again later"
+    except Exception as e:
+        print(e)
+        return False, "Internal Server Error - please try again later"
+
+def signin(userName = None, password = None):
+    return True
 
 def get_data(params):
     index = int(params.pop('_index', 0))

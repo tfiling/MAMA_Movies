@@ -135,8 +135,15 @@
             error: OnErrorCall
         });
         function OnSuccess(response){
-            localStorage.setItem("UserName", response.LoginResponeCommMessage.userName.valueOf());
-            window.location="home.html";
+            if (!response.success)
+            {//the sigup failed -> display the error to the user
+                alert(response.description)
+            }
+            else
+            {//signup successful
+                localStorage.setItem("UserName", response.LoginResponeCommMessage.userName.valueOf());
+                window.location="home.html";
+            }
 
         }
         function OnErrorCall(response){

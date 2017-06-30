@@ -10,6 +10,7 @@ from data import data_filter_by_years
 from data import data_filter_by_genre
 from data import data_search_movie
 from data import movie_list_to_response_json
+from data import signupUser
 
 
 
@@ -64,19 +65,28 @@ class HCIRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             try:
                 parsed_request = urlparse.urlparse(self.path)
                 signupRequest = json.loads(urllib.unquote(parsed_request[4]))
-
-                result = {"userName": "galres"}
+                success, description = signupUser(signupRequest)
+                userName = signupRequest["userName"] if success else ""
+                result = {"description" : description,
+                          "success" : success,
+                          "userName" : userName}
                 responseJson = json.dumps(result)
-
+                print(responseJson)
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
                 self.send_header('Access-Control-Allow-Origin', '*')
                 self.end_headers()
-                self.wfile.write(result)
+                self.wfile.write(responseJson)
                 return
             except Exception as e:
                 print("signup resulted exception: %s" % e)
             return
+
+        if "/signup" in self.path:
+            try:
+                parsed_request = urlparse.urlparse(self.path)
+                signupRequest = json.loads(urllib.unquote(parsed_request[4]))
+
 
         # Requesting a resource (html, js, css)
         if "/shared/" not in self.path:
