@@ -97,7 +97,7 @@
     <a class="active" href="#home" onclick="Home()">Home</a>
     <a href="#news" onclick="Browse()">Browse</a>
     <a href="#contact" onclick="About()">About us</a>
-    <a  href="#about" onclick="SignIn()">Sign In</a>
+    <a  href="#about" onclick="SignIn()">Sign Up</a>
     <a href="#about" onclick="LogIn()">Log In</a>
 </div>
 <h1>MAMA Movies Home Page</h1>
@@ -105,7 +105,7 @@
      font-family:Comic Sans Ms;
      font-size:27pt;
      color: #FFFFFF;">
-   Hi
+   Hi   <script>localStorage.getItem("UserName");</script>
 </div>
 <form name="form1" id="form1">
     <p class="popular">
@@ -170,7 +170,7 @@ function displayUserName(){
 
 
     function SignIn() {
-        window.location="SignIn.html" ;
+        window.location="SignUp.html" ;
     }function LogIn() {
         window.location="LogIn.html" ;
     }

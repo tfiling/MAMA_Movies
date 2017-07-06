@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html lang="en">
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -135,8 +136,13 @@
         display: block;
     }
     #mytable,td{
-        border:10px solid #30faff;;
+        border:2px solid #fffbfb;
+        text-align: center;
+        font-family:Comic Sans Ms;
+        font-size:10pt;
         color: white;
+        padding: 15px 32px;
+        text-align: center;
     }
     p.movieName {
         text-align: center;
@@ -152,7 +158,7 @@
     <a  href="#home" onclick="Home()">Home</a>
     <a class="active" href="#news" onclick="Browse()">Browse</a>
     <a href="#contact" onclick="About()">About us</a>
-    <a  href="#about" onclick="SignIn()">Sign In</a>
+    <a  href="#about" onclick="SignIn()">Sign Up</a>
     <a href="#about" onclick="LogIn()">Log In</a>
 </div>
 <h1>MAMA Movies Sign In</h1>
@@ -253,7 +259,7 @@
     }
 
     function SignIn() {
-        window.location="SignIn.html" ;
+        window.location="SignUp.html" ;
     }function LogIn() {
         window.location="LogIn.html" ;
     }
@@ -278,7 +284,7 @@
         var objectDataString = JSON.stringify(objectData);
         $.ajax({
             type: "GET",
-            url: "http://127.0.0.1:8080/search",
+            url: "http://demo3419750.mockable.io/search",
             data: objectDataString,
             dataType: "json",
             crossDomain : true,
@@ -287,33 +293,52 @@
             error: OnErrorCall
         });
         function OnSuccess(response){
+            if (response==0)
+            {
+                doNothing();
+                return;
+            }
+            else
+            {
+                $("#div1").show();
+                $("#progressDiv").hide();
+                $("#checkBox").hide();
+            }
             var len = response.length;
-            var tbl=$("<table/>").attr("id","mytable");
-            $("#div1").append(tbl);
-            var tr="<tr>";
-            var td1="<td>"+"Movie Name "+"</td>";
-            var td2="<td>"+"Rating"+"</td>";
-            var td3="<td>"+"Total revenues"+"</td>";
-            var td4="<td>"+"Link to Movie page"+"</td></tr>";
+            $("#div1").html("");
+            if (tbl==undefined)
+            {
+                var tbl=$("<table/>").attr("id","mytable");
+                $("#div1").append(tbl);
+                var tr="<tr>";
+                var td1="<td>"+"Movie Name "+"</td>";
+                var td2="<td>"+"Rating"+"</td>";
+                var td3="<td>"+"Total revenues"+"</td>";
+                var td4="<td>"+"Link to Movie page"+"</td></tr>";
+                $("#mytable").append(tr+td1+td2+td3+td4);
+            }
 
-            $("#mytable").append(tr+td1+td2+td3+td4);
+
             for(var i=0;i<len;i++)
             {
                 var tr="<tr>";
                 var td1="<td>"+response[i]["name"]+"</td>";
                 var td2="<td>"+response[i]["rating"]+"</td>";
                 var td3="<td>"+response[i]["revenues"]+"</td>";
-                var td4="<td>"+response[i]["linktopage"]+"</td></tr>";
+                var link = response[i]["linktopage"];
+                var td4="<td><a style='color: #fbfff6;font-family:Comic Sans Ms;' href="+link+">To IMDB page</a></td></tr>";
                 $("#mytable").append(tr+td1+td2+td3+td4);
             }
-            $("#div1").show();
-            $("#progressDiv").hide();
-            $("#checkBox").hide();
+
 
 
         }
         function OnErrorCall(response){
                 alert("ERROR");
+        }
+
+        function doNothing() {
+            alert("Zero results , please try again.");
         }
     }
 </script>

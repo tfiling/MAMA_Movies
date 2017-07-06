@@ -9,7 +9,7 @@
 </head>
 
 <title>
-    MAMA Movies Sign In
+    MAMA Movies Sign Up
 </title>
 <style>
     h1 {
@@ -81,7 +81,7 @@
     <a href="#home" onclick="Home()">Home</a>
     <a href="#news" onclick="Browse()">Browse</a>
     <a href="#contact" onclick="About()">About us</a>
-    <a class="active" href="#about" onclick="SignIn()">Sign In</a>
+    <a class="active" href="#about" onclick="SignUp()">Sign Up</a>
     <a href="#about" onclick="LogIn()">Log In</a>
 </div>
 <h1>MAMA Movies Sign In</h1>
@@ -90,7 +90,7 @@
         Username   <input id = "userName" type="userName" name="userName"/>
         Password   <input id= "password" type="password" name="password"/>
         Re-type Password   <input id= "retypedPassword" type="password" name="password"/>
-        E-Mail address   <input id = "userEmail" type="email" name="userEmail"/>
+        E-Mail address   <input id = "userEmail" type="name" name="userEmail"/>
         <br />
         <br />
         <button class="button" onclick="sendData()">Join Us!</button>
@@ -103,7 +103,7 @@
         document.getElementById("login").reset();
     }
     function SignIn() {
-        window.location="SignIn.html" ;
+        window.location="SignUp.html" ;
     }function LogIn() {
         window.location="LogIn.html" ;
     }
@@ -126,7 +126,7 @@
         var objectDataString = JSON.stringify(objectData);
         $.ajax({
             type: "GET",
-            url: "http://127.0.0.1:8080/signup",
+            url: "http://10.0.0.3:8080/signup",
             data: objectDataString,
             dataType: "json",
             crossDomain : true,
@@ -143,13 +143,15 @@
             {//signup successful
 //                IMPORTANT - removed the line that writes to the local storage the user name - caused an exception
 //                localStorage.setItem("UserName", response.userName);
-                alert(response.description)
+                alert(response.description);
+                localStorage.setItem("UserName", response.userName);
                 window.location="home.html";
+
             }
 
         }
         function OnErrorCall(response){
-            alert("ERROR");
+            alert("ERROR" + response.toString());
         }
     }
 </script>

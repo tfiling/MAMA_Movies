@@ -81,7 +81,7 @@
     <a  href="#home" onclick="Home()">Home</a>
     <a href="#news" onclick="Browse()">Browse</a>
     <a href="#contact" onclick="About()">About us</a>
-    <a  href="#about" onclick="SignIn()">Sign In</a>
+    <a  href="#about" onclick="SignIn()">Sign Up</a>
     <a class="active"  href="#about" onclick="LogIn()">Log In</a>
 </div>
 <h1>MAMA Movies Log In</h1>
@@ -101,7 +101,7 @@
         document.getElementById("login").reset();
     }
     function SignIn() {
-        window.location="SignIn.html" ;
+        window.location="SignUp.html" ;
     }function LogIn() {
         window.location="LogIn.html" ;
     }
@@ -123,7 +123,7 @@
         var objectDataString = JSON.stringify(objectData);
         $.ajax({
             type: "GET",
-            url: "http://127.0.0.1:8080/login",
+            url: "http://10.0.0.3:8080/login",
             data: objectDataString,
             dataType: "json",
             crossDomain : true,
